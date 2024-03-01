@@ -16,8 +16,8 @@ from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
 from langchain_community.llms import OpenAI
 
-# Place to insert OpenAI Key
-openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
+# Make sidebar to insert OpenAI API key
+openai_api_key = ...
 
 def main():
     # Insert title
@@ -38,6 +38,38 @@ def main():
     ...
     # Run prompt through chain
     ...
+
+# Method for scraping text from pdf files given an uploaded file
+def pdf_scrape(uploaded_file):
+    try:
+        if uploaded_file.type == "application/pdf":
+            pdf_reader = PyPDF2.PdfReader(uploaded_file)
+            text = ""
+            for page_num in range(len(pdf_reader.pages)):
+                page = pdf_reader.pages[page_num]
+                text += page.extract_text()
+
+            return text
+        else:
+            return "Uploaded file is not a PDF."
+    except Exception as e:
+        print(e)
+        return f"Failed to retrieve text from the PDF: {e}"
+
+# Method for scraping text from articles/blogs given a link
+def web_scrape(url: str):
+    try:
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, "html.parser")
+            page_text = soup.get_text(separator=" ", strip=True)
+            return page_text
+        else:
+            return f"Failed to retrieve the webpage: Status code {response.status_code}"
+    except Exception as e:
+        print(e)
+        return f"Failed to retrieve the webpage: {e}"
 
 if __name__ == "__main__":
     main()
