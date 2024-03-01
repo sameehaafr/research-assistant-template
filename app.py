@@ -10,21 +10,14 @@ from bs4 import BeautifulSoup
 # Reading and manipulating PDF files
 import PyPDF2
 
-# Interact with the operating system 
-import os
-
-# Imports key from module
-from apikey import apikey
-
 # Natural language processing tasks/building chatbot related
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
 from langchain_community.llms import OpenAI
 
-
-# Accesses the environment variables in the operating system with apikey as credentials
-os.environ['OPENAI_API_KEY'] = apikey
+# Place to insert OpenAI Key
+openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
 
 def main():
     # Insert title
